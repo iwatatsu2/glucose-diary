@@ -10,6 +10,17 @@ const geistSans = Geist({
 export const metadata: Metadata = {
   title: "Glucose Diary - 血糖自己管理アプリ",
   description: "血糖値・体重・血圧を記録し、インスリン調整を提案するアプリ",
+  manifest: "/manifest.json",
+  themeColor: "#1d4ed8",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Glucose Diary",
+  },
+  icons: {
+    icon: "/icon-192.svg",
+    apple: "/icon-192.svg",
+  },
 };
 
 export default function RootLayout({

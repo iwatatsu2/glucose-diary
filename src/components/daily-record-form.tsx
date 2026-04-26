@@ -216,8 +216,8 @@ export function DailyRecordForm({ userId }: { userId: string }) {
               <th className={`${c} w-12 sticky left-0 bg-gray-200 z-10`}>日付</th>
               <th className={`${c} w-10`}>体重</th>
               <th className={`${c} w-9`}>体温</th>
-              <th className={`${c} w-[52px]`} colSpan={2}>朝血圧</th>
-              <th className={`${c} w-[52px]`} colSpan={2}>夜血圧</th>
+              <th className={`${c} w-[40px]`} colSpan={2}>朝血圧</th>
+              <th className={`${c} w-[40px]`} colSpan={2}>夜血圧</th>
               {GLUCOSE_TIMINGS.map(t => (
                 <th key={t.key} className={`${c} w-11`}>{t.short}</th>
               ))}
@@ -231,6 +231,7 @@ export function DailyRecordForm({ userId }: { userId: string }) {
           </thead>
           <tbody>
             {days.map((day, i) => {
+              const prev = i > 0 ? days[i - 1] : null
               const d = new Date(day.date)
               const isToday = day.date === format(today, 'yyyy-MM-dd')
               const dow = format(d, 'E', { locale: ja })
@@ -247,34 +248,34 @@ export function DailyRecordForm({ userId }: { userId: string }) {
 
                   {/* Weight - drum */}
                   <td className={c}>
-                    <DrumPicker value={day.weight} onChange={v => updateDay(i, 'weight', v)} min={30} max={150} step={0.1} decimals={1} unit="kg" label="体重" />
+                    <DrumPicker value={day.weight} onChange={v => updateDay(i, 'weight', v)} min={30} max={150} step={0.1} decimals={1} unit="kg" label="体重" defaultValue={prev?.weight} />
                   </td>
 
                   {/* Temperature - drum */}
                   <td className={c}>
-                    <DrumPicker value={day.temperature} onChange={v => updateDay(i, 'temperature', v)} min={34.0} max={42.0} step={0.1} decimals={1} unit="℃" label="体温" />
+                    <DrumPicker value={day.temperature} onChange={v => updateDay(i, 'temperature', v)} min={34.0} max={42.0} step={0.1} decimals={1} unit="℃" label="体温" defaultValue={prev?.temperature} />
                   </td>
 
                   {/* Morning BP - drum (compact: 2 cells) */}
                   <td className={`${c} !px-0`}>
-                    <DrumPicker value={day.bpMorningSys} onChange={v => updateDay(i, 'bpMorningSys', v)} min={60} max={250} step={1} decimals={0} label="朝 収縮期" />
+                    <DrumPicker value={day.bpMorningSys} onChange={v => updateDay(i, 'bpMorningSys', v)} min={60} max={250} step={1} decimals={0} label="朝 収縮期" defaultValue={prev?.bpMorningSys} />
                   </td>
                   <td className={`${c} !px-0`}>
-                    <DrumPicker value={day.bpMorningDia} onChange={v => updateDay(i, 'bpMorningDia', v)} min={30} max={150} step={1} decimals={0} label="朝 拡張期" />
+                    <DrumPicker value={day.bpMorningDia} onChange={v => updateDay(i, 'bpMorningDia', v)} min={30} max={150} step={1} decimals={0} label="朝 拡張期" defaultValue={prev?.bpMorningDia} />
                   </td>
 
                   {/* Evening BP - drum */}
                   <td className={`${c} !px-0`}>
-                    <DrumPicker value={day.bpEveningSys} onChange={v => updateDay(i, 'bpEveningSys', v)} min={60} max={250} step={1} decimals={0} label="夜 収縮期" />
+                    <DrumPicker value={day.bpEveningSys} onChange={v => updateDay(i, 'bpEveningSys', v)} min={60} max={250} step={1} decimals={0} label="夜 収縮期" defaultValue={prev?.bpEveningSys} />
                   </td>
                   <td className={`${c} !px-0`}>
-                    <DrumPicker value={day.bpEveningDia} onChange={v => updateDay(i, 'bpEveningDia', v)} min={30} max={150} step={1} decimals={0} label="夜 拡張期" />
+                    <DrumPicker value={day.bpEveningDia} onChange={v => updateDay(i, 'bpEveningDia', v)} min={30} max={150} step={1} decimals={0} label="夜 拡張期" defaultValue={prev?.bpEveningDia} />
                   </td>
 
                   {/* Glucose 7 points - drum */}
                   {GLUCOSE_TIMINGS.map(t => (
                     <td key={t.key} className={`${c} ${glucoseColor(day.glucose[t.key])}`}>
-                      <DrumPicker value={day.glucose[t.key]} onChange={v => updateDay(i, `glucose.${t.key}`, v)} min={30} max={500} step={1} decimals={0} unit="" label={t.short} />
+                      <DrumPicker value={day.glucose[t.key]} onChange={v => updateDay(i, `glucose.${t.key}`, v)} min={30} max={500} step={1} decimals={0} unit="" label={t.short} defaultValue={prev?.glucose[t.key]} />
                     </td>
                   ))}
 
@@ -295,7 +296,7 @@ export function DailyRecordForm({ userId }: { userId: string }) {
 
                   {/* Steps - drum */}
                   <td className={c}>
-                    <DrumPicker value={day.steps} onChange={v => updateDay(i, 'steps', v)} min={0} max={50000} step={500} decimals={0} unit="歩" label="歩数" />
+                    <DrumPicker value={day.steps} onChange={v => updateDay(i, 'steps', v)} min={0} max={50000} step={500} decimals={0} unit="歩" label="歩数" defaultValue={prev?.steps} />
                   </td>
 
                   {/* Bowel count - drum */}

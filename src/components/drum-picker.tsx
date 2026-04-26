@@ -11,9 +11,10 @@ interface DrumPickerProps {
   decimals?: number
   unit?: string
   label?: string
+  defaultValue?: string // 前回測定値（未入力時の初期表示位置）
 }
 
-export function DrumPicker({ value, onChange, min, max, step = 1, decimals = 0, unit = '', label }: DrumPickerProps) {
+export function DrumPicker({ value, onChange, min, max, step = 1, decimals = 0, unit = '', label, defaultValue }: DrumPickerProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [tempValue, setTempValue] = useState<number>(value ? Number(value) : min)
   const listRef = useRef<HTMLDivElement>(null)
@@ -42,7 +43,8 @@ export function DrumPicker({ value, onChange, min, max, step = 1, decimals = 0, 
   }, [values])
 
   const handleOpen = () => {
-    setTempValue(value ? Number(value) : Math.round((min + max) / 2 / step) * step)
+    const initial = value ? Number(value) : defaultValue ? Number(defaultValue) : Math.round((min + max) / 2 / step) * step
+    setTempValue(initial)
     setIsOpen(true)
   }
 
