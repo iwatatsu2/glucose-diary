@@ -17,10 +17,6 @@ export const metadata: Metadata = {
     statusBarStyle: "black-translucent",
     title: "Glucose Diary",
   },
-  icons: {
-    icon: "/icon-192.svg",
-    apple: "/icon-192.svg",
-  },
 };
 
 export default function RootLayout({
