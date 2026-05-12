@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import InstallBanner from "@/components/InstallBanner";
+import { Analytics } from "@vercel/analytics/react";
 
 const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-gray-50" style={{ fontFamily: 'var(--font-noto-sans-jp), sans-serif' }}>
         {children}
         <InstallBanner />
+        <Analytics />
       </body>
     </html>
   );
